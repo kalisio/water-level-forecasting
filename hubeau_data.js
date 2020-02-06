@@ -6,8 +6,13 @@ const makeDebug = require('debug')
 const debug = makeDebug('data')
 
 async function gatherSites () {
+  // Create data dir on first launch only
+  try {
+    fs.mkdirSync('data')
+  } catch (_) {}
   // Retrieve all available sites
   try {
+    console.log(`Downloading site list`)
     const response = await request
       .get('https://hubeau.eaufrance.fr/api/v1/hydrometrie/referentiel/sites.csv')
       .query({
@@ -15,7 +20,7 @@ async function gatherSites () {
       })
       .accept('text/csv')
     // Write CSV for debug
-    fs.writeFileSync('hubeau_all_sites.csv', response.text)
+    fs.writeFileSync('data/hubeau_all_sites.csv', response.text)
     // Read CSV in-momory and filter the sites for the target river
     const river = program.args[0]
     let sites = []
@@ -27,9 +32,9 @@ async function gatherSites () {
           if (row.libelle_cours_eau === river) sites.push(row)
         })
         .on('end', rowCount => {
-          console.log(`Parsed ${rowCount} sites, selected ${sites.length}`)
+          console.log(`Parsed ${rowCount} sites, selected ${sites.length} for ${river}`)
           // Write CSV for debug
-          csv.write(sites, { delimiter: ';', headers: true }).pipe(fs.createWriteStream(`hubeau_sites_${river}.csv`))
+          csv.write(sites, { delimiter: ';', headers: true }).pipe(fs.createWriteStream(`data/hubeau_sites_${river}.csv`))
           resolve(sites)
         })
     })
@@ -42,6 +47,7 @@ async function gatherSitesData (sites) {
   const river = program.args[0]
   const ts = program.timestep
   const tr = program.timerange
+  console.log(`Downloading data for sites in range ${tr} days every ${ts} minutes`)
   // Retrieve selected sites data for last period
   let end = new Date()
   // Hubeau only allow request for 1 month in the past
@@ -50,6 +56,7 @@ async function gatherSitesData (sites) {
   try {
     for (let i = 0; i < sites.length; i++) {
       const site = sites[i]
+      console.log(`Downloading data for site ${site.libelle_site} -  ${site.code_site}`)
       const response = await request
         .get('https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr.csv')
         .query({
@@ -57,11 +64,12 @@ async function gatherSitesData (sites) {
           grandeur_hydro: 'H', // Water level
           date_debut_obs: start.toISOString(),
           date_fin_obs: end.toISOString(),
-          timestep: program.timestep
+          timestep: ts
         })
         .accept('text/csv')
       // Write CSV for debug
-      fs.writeFileSync(`hubeau_site_${site.code_site}_${tr}d_${ts}m_${river}.csv`, response.text)
+      if (response.text) fs.writeFileSync(`data/hubeau_site_${site.code_site}_${tr}d_${ts}m_${river}.csv`, response.text)
+      else console.log(`Skipping data for site ${site.libelle_site} -  ${site.code_site}, none found`)
     }
   } catch (error) {
     console.log(error)
