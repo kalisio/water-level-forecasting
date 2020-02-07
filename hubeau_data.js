@@ -25,7 +25,7 @@ async function gatherSites () {
     const river = program.args[0]
     let sites = []
     return await new Promise((resolve, reject) => {
-      fs.createReadStream('hubeau_all_sites.csv')
+      fs.createReadStream('data/hubeau_all_sites.csv')
         .pipe(csv.parse({ delimiter: ';', headers: true, trim: true }))
         .on('error', reject)
         .on('data', row => {

@@ -6,7 +6,7 @@ Predicting the level of water in rivers can prove to be invaluable in areas with
 
 This experiment is using TensorFlow and Long Short-Term Memory Recurrent Neural Networks.
 
-Background: research has shown that some weather parameters can be accurately predicted out to 72hrs using a 15 year data period of hourly measurements, why not water levels ?
+Background: research has shown that some weather parameters can be accurately predicted out to 72hrs using a 15 year data period of hourly measurements, why not water level ?
 
 ## Data gathering
 
@@ -18,7 +18,7 @@ You can also use the following additional options:
 * `--timestep` time step in minutes (min 10, max 60)
 * `--timerange` past time range in days (min 1, max 30)
 
-Default data are provided from the 07-01-2020 to 06-02-2020 for some rivers in Occitanie - France, which is an interesting period because a flood episode has accoured around from the 22-01 to 25-01.
+Default data are provided from the 07-01-2020 to 06-02-2020 for some rivers in Occitanie - France, which is an interesting period because a flood episode has occoured from the 22-01 to 25-01.
 
 > Please note that data at some stations were missing during this period
 
@@ -26,7 +26,7 @@ Default data are provided from the 07-01-2020 to 06-02-2020 for some rivers in O
 
 There are two different notebooks:
 * [hubeau_univariate](./hubeau_univariate.ipynb) where a single variable, ie the water level given by the station, is used at a given station to make predictions
-* [hubeau_multivariate](./hubeau_multivariate.ipynb) where a multiple variables, ie the water level given by others stations, is used at a given station to make predictions
+* [hubeau_multivariate](./hubeau_multivariate.ipynb) where multiple variables, ie the water level given by others stations, is used at a given station to make predictions
 
 We will use Anaconda distribution for simplicity and create a TensorFlow environment for our experiment:
 ```
@@ -37,7 +37,7 @@ conda install pandas
 conda install jupyter notebook
 ```
 
-Launch the notebooks using `jupyter notebook hubeau_univariate` or `jupyter notebook hubeau_multivariate`.
+Launch the notebooks using `jupyter notebook hubeau_univariate.ipynb` or `jupyter notebook hubeau_multivariate.ipynb`.
 
 ## TODO
 
