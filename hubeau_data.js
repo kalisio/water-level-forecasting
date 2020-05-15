@@ -1,6 +1,7 @@
 const request = require('superagent')
 const csv = require('fast-csv')
 const fs = require('fs')
+const path = require('path')
 const program = require('commander')
 const makeDebug = require('debug')
 const debug = makeDebug('data')
@@ -8,7 +9,7 @@ const debug = makeDebug('data')
 async function gatherSites () {
   // Create data dir on first launch only
   try {
-    fs.mkdirSync('data')
+    fs.mkdirSync(program.output)
   } catch (_) {}
   // Retrieve all available sites
   try {
@@ -20,12 +21,12 @@ async function gatherSites () {
       })
       .accept('text/csv')
     // Write CSV for debug
-    fs.writeFileSync('data/hubeau_all_sites.csv', response.text)
-    // Read CSV in-momory and filter the sites for the target river
+    fs.writeFileSync(path.join(program.output, 'hubeau_all_sites.csv'), response.text)
+    // Read CSV in-memory and filter the sites for the target river
     const river = program.args[0]
     let sites = []
     return await new Promise((resolve, reject) => {
-      fs.createReadStream('data/hubeau_all_sites.csv')
+      fs.createReadStream(path.join(program.output, 'hubeau_all_sites.csv'))
         .pipe(csv.parse({ delimiter: ';', headers: true, trim: true }))
         .on('error', reject)
         .on('data', row => {
@@ -34,7 +35,7 @@ async function gatherSites () {
         .on('end', rowCount => {
           console.log(`Parsed ${rowCount} sites, selected ${sites.length} for ${river}`)
           // Write CSV for debug
-          csv.write(sites, { delimiter: ';', headers: true }).pipe(fs.createWriteStream(`data/hubeau_sites_${river}.csv`))
+          csv.write(sites, { delimiter: ';', headers: true }).pipe(fs.createWriteStream(path.join(program.output, `hubeau_sites_${river}.csv`)))
           resolve(sites)
         })
     })
@@ -67,8 +68,11 @@ async function gatherSitesData (sites) {
           timestep: ts
         })
         .accept('text/csv')
-      // Write CSV for debug
-      if (response.text) fs.writeFileSync(`data/hubeau_site_${site.code_site}_${tr}d_${ts}m_${river}.csv`, response.text)
+      const date = start.getFullYear() + '-' +
+        start.getMonth().toString().padStart(2, '0') + '-' +
+        start.getDay().toString().padStart(2, '0')
+      // Write CSV
+      if (response.text) fs.writeFileSync(path.join(program.output, `hubeau_site_${site.code_site}_${date}_${tr}d_${ts}m_${river}.csv`), response.text)
       else console.log(`Skipping data for site ${site.libelle_site} -  ${site.code_site}, none found`)
     }
   } catch (error) {
@@ -84,6 +88,7 @@ async function run () {
 program
   .version(require('./package.json').version)
   .usage('<river> [options]')
+  .option('-o, --output [output]', ', defaults to "./data"', './data')
   .option('-ts, --timestep [timestep]', 'Observation timestep in minutes, defaults to 30', 30)
   .option('-tr, --timerange [timerange]', 'Observation time range in days from now, defaults to 30 days (max)', 30)
   .parse(process.argv)

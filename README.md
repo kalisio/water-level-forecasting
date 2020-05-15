@@ -15,10 +15,13 @@ Simply run `yarn install` then `node hubeau_data.js "River label"`, it will gath
 * bydefault 1 month past data of measurements on each previously selected site with a time step of 30 minutes
 
 You can also use the following additional options:
-* `--timestep` time step in minutes (min 10, max 60)
-* `--timerange` past time range in days (min 1, max 30)
+* `--output` output directory (defaults to 'data')
+* `--timestep` time step in minutes (min 10 - max 60 - defaults 30)
+* `--timerange` past time range in days (min 1 - max 30 - defaults 30)
 
-Default data are provided from the 07-01-2020 to 06-02-2020 for some rivers in Occitanie - France, which is an interesting period because a flood episode has occoured from the 22-01 to 25-01.
+Default data for training are provided from 07-01-2020 to 06-02-2020 for some rivers in Occitanie - France, which is an interesting period because a flood episode has occured from 22-01 to 25-01.
+
+Some validation data are also provided from 15-04-2020 to 15-05-2020 for some rivers in Occitanie - France, which is also an interesting period because smaller but intense precipitations episodes have occured.
 
 > Please note that data at some stations were missing during this period
 
