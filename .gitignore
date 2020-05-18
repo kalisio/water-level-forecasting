@@ -7,6 +7,7 @@ logs
 
 # Uncompressed data
 data
+validation_data
 
 # Runtime data
 pids
