@@ -29,7 +29,7 @@ Some validation data are also provided from 15-04-2020 to 15-05-2020 for some ri
 
 There are two different notebooks:
 * [hubeau_univariate](./hubeau_univariate.ipynb) where a single variable, ie the water level given by the station, is used at a given station to make predictions
-* [hubeau_multivariate](./hubeau_multivariate.ipynb) where multiple variables, ie the water level given by others stations, is used at a given station to make predictions
+* [hubeau_multivariate](./hubeau_multivariate.ipynb) where multiple variables, ie the water level given by others stations or meteo stations, is used at a given station to make predictions - **Work in progress**
 
 We will use Anaconda distribution for simplicity and create a TensorFlow environment for our experiment:
 ```
@@ -41,12 +41,6 @@ conda install jupyter notebook
 ```
 
 Launch the notebooks using `jupyter notebook hubeau_univariate.ipynb` or `jupyter notebook hubeau_multivariate.ipynb`.
-
-## TODO
-
-* Plot history vs prediction for the complete time range
-* Multivariate
-* Focus on flood period
 
 ## License
 
