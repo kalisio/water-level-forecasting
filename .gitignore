@@ -8,6 +8,7 @@ logs
 # Uncompressed data
 data
 validation_data
+meteo_data
 
 # Runtime data
 pids
