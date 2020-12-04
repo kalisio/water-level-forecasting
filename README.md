@@ -4,7 +4,7 @@
 
 Predicting the level of water in rivers can prove to be invaluable in areas with a high risk of flooding. While traditional methods are based primarily on physical model, another approach is emerging: artificial neural networks.
 
-This experiment is using TensorFlow and Long Short-Term Memory Recurrent Neural Networks.
+This experiment is using TensorFlow and Long Short-Term Memory Recurrent Neural Networks. We would also like to have a look to https://facebook.github.io/prophet/.
 
 Background: research has shown that some weather parameters can be accurately predicted out to 72hrs using a 15 year data period of hourly measurements, why not water level ?
 
