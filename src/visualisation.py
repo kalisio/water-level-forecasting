@@ -42,7 +42,7 @@ def show_multiple_plot(history, true_future, prediction, title, mean, std):
   plt.plot(num_in, np.array(denormalize(history, mean, std)), label='History')
   plt.plot(num_out, np.array(denormalize(true_future, mean, std)), 'bo',
            label='True Future')
-  if prediction.any():
+  if prediction:
     plt.plot(num_out, np.array(denormalize(prediction, mean, std)), 'ro',
              label='Predicted Future')
   plt.legend(loc='upper left')
