@@ -19,31 +19,33 @@ You can also use the following additional options:
 * `--timestep` time step in minutes (min 10 - max 60 - defaults 30)
 * `--timerange` past time range in days (min 1 - max 30 - defaults 30)
 
+> **All data zip files are to be extracted into the :open_file_folder: [data/raw](./data/raw)directory**
+
 ### Base data
 
-Default data for training (*data.zip*) are provided from 07-01-2020 to 07-02-2020 for some rivers in Occitanie - France, which is an interesting period because a flood episode has occured from 22-01 to 25-01.
+Default data for training ([train_data.zip](./train_data.zip)) are provided from 07-01-2020 to 07-02-2020 for some rivers in Occitanie - France, which is an interesting period because a flood episode has occured from 22-01 to 25-01.
 
-Some validation data (*validation_data.zip*) are also provided from 15-04-2020 to 15-05-2020 for some rivers in Occitanie - France, which is also an interesting period because smaller but intense precipitations episodes have occured.
+Some validation data ([validation_data.zip](./validation_data.zip)) are also provided from 15-04-2020 to 15-05-2020 for some rivers in Occitanie - France, which is also an interesting period because smaller but intense precipitations episodes have occured.
 
 > Please note that data at some stations were missing during this period
 
-Concerning the meteo station data (*meteo_data.zip*) we retrieved archived data on these periods from https://rp5.ru/ manually but data are really scrace.
+Concerning the meteo station data ([train_meteo_data.zip](./train_meteo_data.zip) and [validation_meteo_data.zip](./validation_meteo_data.zip)) we retrieved archived data on these periods from https://rp5.ru/ manually but data are really scrace.
 
 ### Complementary data
 
-Additional data are provided from 26-08-2020 to 26-09-2020 for some rivers in Occitanie - France, which is also an interesting period because a huge flood episode has occured from 19-09 to 20-09.
+Additional data ([test_data.zip](./test_data.zip)) are provided from 26-08-2020 to 26-09-2020 for some rivers in Occitanie - France, which is also an interesting period because a huge flood episode has occured from 19-09 to 20-09.
 
-During this flood episode we gathered meteo station data (*flood_radome_data.zip*) from the dense RADOME network.
+During this flood episode we gathered meteo station data ([test_meteo_data.zip](./test_meteo_data.zip)) from the dense RADOME network.
 
 However, we did not make use of this data yet. Let us know if you have by opening an issue.
 
 ## Data processing and model training
 
-There are two different notebooks:
-* [hubeau_univariate](./hubeau_univariate.ipynb) where a single variable, ie the water level given by the station, is used at a given station to make predictions
-* [hubeau_multivariate](./hubeau_multivariate.ipynb) where multiple variables, ie the water level given by others stations or meteo stations, is used at a given station to make predictions - **Work in progress**
+There are two different notebooks located in the :open_file_folder: [notebooks](./notebooks) folder:
+* [hubeau_univariate](./notebooks/hubeau_univariate.ipynb) where a single variable, ie the water level given by the station, is used at a given station to make predictions
+* [hubeau_multivariate](./notebooks/hubeau_multivariate.ipynb) where multiple variables, ie the water level given by others stations or meteo stations, is used at a given station to make predictions - **Work in progress**
 
-We will use Anaconda distribution for simplicity and create a TensorFlow environment for our experiment:
+We use Anaconda distribution for simplicity and create a TensorFlow environment for our experiment:
 ```
 conda create -n tf-gpu tensorflow-gpu
 conda activate tf-gpu

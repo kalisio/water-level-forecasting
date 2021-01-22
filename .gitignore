@@ -1,14 +1,16 @@
 .DS_Store
+
+# Python
 .ipynb_checkpoints
+__pycache__
 
 # Logs
 logs
 *.log
 
 # Uncompressed data
-data
-validation_data
-meteo_data
+*.csv
+*.xls
 
 # Runtime data
 pids
