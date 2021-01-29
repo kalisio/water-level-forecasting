@@ -3,8 +3,9 @@ import tensorflow as tf
 from .data import normalize, denormalize
 
 # Fit a RNN on given datasets
-def fitRNN (x_train, y_train, x_validate, y_validate, outputs = 1,
-            batch_size = 128, buffer_size = 5000, epochs = 10, steps_per_epoch = 100, validation_steps = 50):
+def fitRNN (x_train, y_train, x_validate, y_validate, inputs, outputs,
+            model_type, bidirectional, stacked, dropout,
+            batch_size, buffer_size, epochs, steps_per_epoch, validation_steps):
   train = tf.data.Dataset.from_tensor_slices((x_train, y_train))
   train = train.cache().shuffle(buffer_size).batch(batch_size).repeat()
 
@@ -12,9 +13,18 @@ def fitRNN (x_train, y_train, x_validate, y_validate, outputs = 1,
   validate = validate.batch(batch_size).repeat()
 
   model = tf.keras.models.Sequential()
-  model.add(tf.keras.layers.LSTM(16, return_sequences=True, input_shape=x_train.shape[-2:]))
-  model.add(tf.keras.layers.LSTM(8, activation='relu'))
-  model.add(tf.keras.layers.Dense(outputs))
+  # Fill layers according to options
+  layers = []
+  layers.append(getattr(tf.keras.layers, model_type)(inputs, return_sequences=stacked, input_shape=x_train.shape[-2:]))
+  if stacked:
+    layers.append(getattr(tf.keras.layers, model_type)(inputs, activation='relu'))
+  if bidirectional:
+    layers = [tf.keras.layers.Bidirectional(layer) for layer in layers]
+  if dropout > 0:
+    layers.append(tf.keras.layers.Dropout(dropout))
+  layers.append(tf.keras.layers.Dense(outputs))
+  for layer in layers:
+    model.add(layer)
 
   model.compile(optimizer='adam', loss='mae', metrics=['mse'])
 

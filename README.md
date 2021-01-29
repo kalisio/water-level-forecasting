@@ -52,9 +52,15 @@ conda activate tf-gpu
 conda install matplotlib
 conda install pandas
 conda install jupyter notebook
+conda install papermil
+
 ```
 
 Launch the notebooks using `jupyter notebook hubeau_univariate.ipynb` or `jupyter notebook hubeau_multivariate.ipynb`.
+
+Execute the notebooks with parameters using `papermill hubeau_univariate.ipynb test.ipynb -p timestep 60 -p model_type 'LSTM' -p stacked True -p epochs 20`.
+
+> You might face this [issue](https://github.com/nteract/papermill/issues/571) with papermill, resolve it with `pip install nbformat --upgrade`.
 
 ## License
 
