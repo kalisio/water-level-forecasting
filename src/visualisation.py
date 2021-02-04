@@ -30,6 +30,8 @@ def show_single_plot(history, true_future, offset, prediction, title, mean, std)
     plt.plot(num_out, np.array(denormalize(prediction, mean, std)), 'ro',
              label='Predicted Future')
   plt.legend(loc='upper left')
+  plt.xlabel("Time Step")
+  plt.ylabel("Water level (mm)")
 
 # Used to plot input window/label and prediction in multiple-step setup
 def show_multiple_plot(history, true_future, prediction, title, mean, std):
@@ -46,6 +48,8 @@ def show_multiple_plot(history, true_future, prediction, title, mean, std):
     plt.plot(num_out, np.array(denormalize(prediction, mean, std)), 'ro',
              label='Predicted Future')
   plt.legend(loc='upper left')
+  plt.xlabel("Time Step")
+  plt.ylabel("Water level (mm)")
     
 # Used to plot raw data vs model data (i.e. prediction)
 # Also compute different errors
@@ -60,7 +64,8 @@ def show_prediction(data, prediction, title):
   if prediction:
     plt.plot(time_steps, np.array(prediction), '-', label='Model Prediction')
   plt.legend()
-  plt.xlabel('Time Step')
+  plt.xlabel("Time Step")
+  plt.ylabel("Water level (mm)")
   
   mae = np.absolute(np.subtract(data,prediction)).mean()
   print ('Mean Absolute Error {:4.2f}'.format(mae))
