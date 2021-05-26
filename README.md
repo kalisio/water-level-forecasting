@@ -1,3 +1,5 @@
+**This repository is now deprecated, we are moving forward in our new [predikt project](https://github.com/kalisio/predikt) (private access)**.
+
 # Timeseries forecasting use case: level of water
 
 > Based on Open Data provided by Hub'Eau and largely inspired by https://www.tensorflow.org/tutorials/structured_data/time_series
